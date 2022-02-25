@@ -101,13 +101,18 @@ RUN ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /et
 # coredump 的路径
 ENV CORE_DUMP_PATH=/root/coredump/
 
-# 执行编译并设置 coredump
+# 设置 coredump
 RUN ulimit -c unlimited \
+    # 创建 coedump 的路径
     && mkdir -p ${CORE_DUMP_PATH} \
+    # 配置 coredump 生成的路径和文件格式
     && sysctl -w kernel.core_pattern=${CORE_DUMP_PATH}%e.%t.core
 
+# 工作目录
 ENV WORK_SPACE_PATH=/root/workspace/my_pratice
 
+# 拷贝本地代码
 COPY . ${WORK_SPACE_PATH}
 
+# 设置工作路径
 WORKDIR ${WORK_SPACE_PATH}
