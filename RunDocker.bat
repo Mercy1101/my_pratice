@@ -16,7 +16,7 @@ Rem create image by Dockerfile
 docker build -t %image_name% .
 
 Rem create and run container
-docker run -dt -m 1024m --restart=unless-stopped --privileged --name %container_name% %image_name%
+docker run -dt --restart=unless-stopped --privileged --name %container_name% %image_name%
 
 Rem show all image
 docker image ls
