@@ -118,7 +118,7 @@
                <number>15</number>
               </property>
               <item>
-               <widget class="QRadioButton" name="rb2">
+               <widget class="QRadioButton" name="rbB">
                 <property name="text">
                  <string>B</string>
                 </property>
@@ -217,6 +217,16 @@
                  </spacer>
                 </item>
                 <item>
+                 <widget class="QLabel" name="labelQuestionIndex">
+                  <property name="enabled">
+                   <bool>false</bool>
+                  </property>
+                  <property name="text">
+                   <string>QuestionIndex</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QPushButton" name="btnPrevQuestion">
                   <property name="text">
                    <string>前一题</string>
@@ -245,7 +255,7 @@
                  <number>0</number>
                 </property>
                 <item>
-                 <widget class="QPlainTextEdit" name="plainTextEdit_6">
+                 <widget class="QPlainTextEdit" name="edtResult">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                     <horstretch>0</horstretch>
@@ -261,7 +271,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QTextEdit" name="textEdit_7"/>
+                 <widget class="QTextEdit" name="edtNote"/>
                 </item>
                </layout>
               </item>

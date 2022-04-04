@@ -7,10 +7,12 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    AddRow();
-    AddRadioButton();
 
-    AddQuestion();
+    /// 把 radio button 绑定在一个组内
+    group_selection_->addButton(ui->rbA, 0);
+    group_selection_->addButton(ui->rbB, 1);
+    group_selection_->addButton(ui->rbC, 2);
+    group_selection_->addButton(ui->rbD, 3);
 }
 
 MainWindow::~MainWindow()
@@ -18,60 +20,79 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::AddRow()
+void MainWindow::update_question(const int& question_index, const QuestionData& question)
 {
-    /// ui->tableQuestion->insertRow(ui->tableQuestion->rowCount());
-    /// int rowIndex = ui->tableQuestion->rowCount() - 1;
-    /// QTableWidgetItem *item0 = new QTableWidgetItem("sdfdsf");
-    /// QTableWidgetItem *item1 = new QTableWidgetItem("lkjl");
+    /// 显示问题
+    ui->edtQuestion->setText(question.get_question().c_str());
 
-    /// ui->tableQuestion->setItem(rowIndex, 0, item0);
-    /// ui->tableQuestion->setItem(rowIndex, 1, item1);
+    std::map<int, std::string> answers = question.get_answer();
+    if (answers.size() != 4)
+    {
+        qDebug() << "Invalid Answer";
+        return;
+    }
+
+    /// 保存问题的 index
+    ui->labelQuestionIndex->setText(std::to_string(question_index).c_str());
+
+    /// 显示答案
+    ui->edtAnswerA->setText(answers[0].c_str());
+    ui->edtAnswerB->setText(answers[1].c_str());
+    ui->edtAnswerC->setText(answers[2].c_str());
+    ui->edtAnswerD->setText(answers[3].c_str());
+
+    /// 绑定记录答案的东西
+    connect(ui->rbA, SIGNAL(clicked(bool)), this, SLOT(slot_click_answer));
+    connect(ui->rbB, SIGNAL(clicked(bool)), this, SLOT(slot_click_answer));
+    connect(ui->rbC, SIGNAL(clicked(bool)), this, SLOT(slot_click_answer));
+    connect(ui->rbD, SIGNAL(clicked(bool)), this, SLOT(slot_click_answer));
 }
 
-void MainWindow::AddRadioButton()
+void MainWindow::on_btnConfirm_clicked()
 {
-    /// groupButton1 = new QButtonGroup(this);
-    /// groupButton1->addButton(ui->radioButton, 0);
-    /// groupButton1->addButton(ui->radioButton_2, 1);
-    /// groupButton1->addButton(ui->radioButton_3, 2);
-    /// groupButton1->addButton(ui->radioButton_4, 3);
+    QuestionData question;
+    if (!controller_.get_question(GetQuestionIndex(), question))
+    {
+        qDebug() << "get_question failed!";
+    }
 
-    /// connect(ui->pushButton, SIGNAL(clicked(bool)), this, SLOT(slots_pushButton()));
+    /// 确认答案
+    if (controller_.compare_answer(GetQuestionIndex()))
+    {
+        /// 答案对了
+        UpdateCorrectAnswerUI(question);
+    }
+    else
+    {
+        /// 答案错了
+        UpdateWrongAnswerUI(question);
+    }
 }
 
-void MainWindow::slots_pushButton()
+void MainWindow::UpdateCorrectAnswerUI(const QuestionData& question)
 {
-    /// switch (groupButton1->checkedId())
-    /// {
-    ///     case 0:
-    ///         qDebug() << "由项目管理办公室统一管理";
-    ///         break;
-    ///     case 1:
-    ///         qDebug() << "被作为项目组合来协调管理";
-    ///         break;
-    ///     case 2:
-    ///         qDebug() << "被作为项目集来协调管理";
-    ///         break;
-    ///     case 3:
-    ///         qDebug() << "被归入项目作战室统管理";
-    ///         break;
-    ///     default:
-    ///         qDebug() << "未选择答案";
+    std::string strResult = "正确答案!";
+    ui->edtResult->setText(strResult.c_str());
 
-    ///         break;
-    /// }
-    /// switch (RadioButtonBox->checkedId())
-    /// {
-    ///
-    /// }
+    std::vector<std::string> vecNote = question.get_notes();
+    std::string strNote;
+    for (const auto& element : vecNote)
+    {
+        strNote = element + "\n";
+    }
+
+    ui->edtNote->setText(strNote);
 }
 
-void MainWindow::AddQuestion()
+void MainWindow::UpdateWrongAnswerUI(const QuestionData& question) {}
+
+void MainWindow::slot_click_answer()
 {
-    /// ui->textEditQuestion->setText("如果项目之间的联系仅限于共享顾主、供应商、技术或资源，则这些项目应该()");
-    /// ui->textEditAnswer0->setText("由项目管理办公室统一管理");
-    /// ui->textEditAnswer1->setText("被作为项目组合来协调管理");
-    /// ui->textEditAnswer2->setText("被作为项目集来协调管理");
-    /// ui->textEditAnswer3->setText("被归入项目作战室统管理");
+    controller_.write_answer(GetQuestionIndex(), group_selection_->checkedId());
+}
+
+int MainWindow::GetQuestionIndex()
+{
+    QString strQuestionIndex = ui->labelQuestionIndex->text();
+    return strQuestionIndex.toInt();
 }

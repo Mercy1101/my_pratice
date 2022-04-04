@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QButtonGroup>
+#include "middle/QuestionController.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -12,7 +13,8 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private slots:
-    void slots_pushButton();
+    void on_btnConfirm_clicked();
+    void slot_click_answer();
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -20,10 +22,14 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    void AddRow();
-    void AddRadioButton();
-    void AddQuestion();
 
-    QButtonGroup *groupButton1;
+    QButtonGroup *group_selection_;
+    QuestionController controller_;
+
+    int GetQuestionIndex();
+
+    void update_question(const int &question_index, const QuestionData &question);
+    void UpdateWrongAnswerUI(const QuestionData &question);
+    void UpdateCorrectAnswerUI(const QuestionData &question);
 };
 #endif // MAINWINDOW_H
