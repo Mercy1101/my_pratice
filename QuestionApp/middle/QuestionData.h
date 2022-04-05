@@ -10,8 +10,9 @@ class QuestionData
     using ANSWER_INDEX_TYPE = int;  ///< 答案索引类型
 public:
     QuestionData() {}
-    QuestionData(const std::string& question, const std::map<int, std::string>& answer, const int& correct_answer_index)
-        : question_(question), answer_(answer), correct_answer_index_(correct_answer_index)
+    QuestionData(const std::string& question, const std::map<int, std::string>& answer, const int& correct_answer_index,
+                 const std::vector<std::string>& notes)
+        : question_(question), answer_(answer), correct_answer_index_(correct_answer_index), notes_(notes)
     {
     }
 

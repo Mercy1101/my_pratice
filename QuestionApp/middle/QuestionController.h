@@ -15,7 +15,7 @@ public:
      */
     void add_question(const QuestionData& data)
     {
-        questions_[questions_.size()] = data;
+        questions_[static_cast<int>(questions_.size())] = data;
     }
 
     /**
@@ -32,7 +32,7 @@ public:
             return false;
         }
 
-        question = *it;
+        question = it->second;
         return true;
     }
 
@@ -47,12 +47,26 @@ public:
 
     /**
      * @brief 获取下个问题
-     * @param question
+     * @param question  [out]
      * @return
      */
-    bool get_next_question(QuestionData& question)
+    bool get_next_question(QuestionData& question, QUESTION_ID_TYPE& index)
     {
-        return get_question(++current_question_index_, question);
+        if (!get_question(++current_question_index_, question))
+        {
+            return false;
+        }
+        index = get_current_question_index();
+        return true;
+    }
+
+    /**
+     * @brief   获取当前
+     * @return
+     */
+    QUESTION_ID_TYPE get_current_question_index() const
+    {
+        return current_question_index_;
     }
 
     /**
@@ -81,10 +95,6 @@ public:
         return people_answer_[id] == questions_[id].get_correct_answer_index();
     }
 
-    void write_answer(const QUESTION_ID_TYPE& id, const int& answer)
-    {
-        people_answer_[id] = answer;
-    }
 
 private:
     std::map<QUESTION_ID_TYPE, QuestionData> questions_;  ///< 题的 id 和信息

@@ -221,8 +221,11 @@
                   <property name="enabled">
                    <bool>false</bool>
                   </property>
+                  <property name="autoFillBackground">
+                   <bool>false</bool>
+                  </property>
                   <property name="text">
-                   <string>QuestionIndex</string>
+                   <string/>
                   </property>
                  </widget>
                 </item>
@@ -252,26 +255,59 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_5">
                 <property name="spacing">
-                 <number>0</number>
+                 <number>6</number>
                 </property>
                 <item>
-                 <widget class="QPlainTextEdit" name="edtResult">
+                 <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <property name="topMargin">
+                   <number>6</number>
+                  </property>
+                  <property name="bottomMargin">
+                   <number>6</number>
+                  </property>
+                  <item>
+                   <widget class="QLabel" name="labelResult">
+                    <property name="minimumSize">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                    <property name="maximumSize">
+                     <size>
+                      <width>100</width>
+                      <height>16777215</height>
+                     </size>
+                    </property>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="labelCorrectAnswer">
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <widget class="QTextEdit" name="edtNote">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                     <horstretch>0</horstretch>
                     <verstretch>0</verstretch>
                    </sizepolicy>
                   </property>
-                  <property name="maximumSize">
+                  <property name="minimumSize">
                    <size>
-                    <width>16777215</width>
-                    <height>36</height>
+                    <width>0</width>
+                    <height>0</height>
                    </size>
                   </property>
                  </widget>
-                </item>
-                <item>
-                 <widget class="QTextEdit" name="edtNote"/>
                 </item>
                </layout>
               </item>
@@ -285,6 +321,19 @@
          <attribute name="title">
           <string>Tab 2</string>
          </attribute>
+         <widget class="QPushButton" name="pushButton">
+          <property name="geometry">
+           <rect>
+            <x>390</x>
+            <y>190</y>
+            <width>80</width>
+            <height>24</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>开始做题</string>
+          </property>
+         </widget>
         </widget>
        </widget>
       </item>
