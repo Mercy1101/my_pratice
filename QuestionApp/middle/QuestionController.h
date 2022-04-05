@@ -4,11 +4,21 @@
 #include <map>
 #include <QDebug>
 #include "QuestionData.h"
+#include "DataLoader.h"
 
 class QuestionController
 {
 public:
     using QUESTION_ID_TYPE = int;
+    QuestionController()
+    {
+        std::vector<QuestionData> vecQuestion;
+        data_loader.query_all_question(vecQuestion);
+        for(const auto& it : vecQuestion)
+        {
+            add_question(vecQuestion);
+        }
+    }
 
     /**
      * @brief 添加问题
@@ -168,12 +178,13 @@ public:
         return people_answer_[id] == questions_[id].get_correct_answer_index();
     }
 
-
 private:
     std::map<QUESTION_ID_TYPE, QuestionData> questions_;  ///< 题的 id 和信息
     QUESTION_ID_TYPE current_question_index_ = -1;        ///< 当前问题的 index
     std::map<QUESTION_ID_TYPE, int> people_answer_;       ///< 考生回答的问题
     bool is_test_finish_ = false;                         ///< 考试是否结束
+
+    DataLoader data_loader;  ///< 数据加载器
 };
 
-#endif // QUESTIONCONTROLLER_H
+#endif  // QUESTIONCONTROLLER_H

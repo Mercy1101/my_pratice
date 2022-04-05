@@ -22,7 +22,8 @@ set(PROJECT_SOURCES
         mainwindow.h
         mainwindow.ui
         middle/QuestionData.h
-        middle/QUestionController.h
+        middle/QuestionController.h
+        middle/DataLoader.h
         ${TS_FILES}
 )
 
@@ -53,7 +54,8 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(QuestionApp PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(QuestionApp PRIVATE Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Sql)
 
 set_target_properties(QuestionApp PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
@@ -64,3 +66,5 @@ set_target_properties(QuestionApp PROPERTIES
 if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(QuestionApp)
 endif()
+
+find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Sql REQUIRED)
