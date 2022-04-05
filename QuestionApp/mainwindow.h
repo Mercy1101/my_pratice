@@ -17,13 +17,19 @@ private slots:
 
     void on_start_test_triggered();
 
-    void on_rbA_toggled(bool checked);
+    void on_btnNextQuestion_clicked(bool checked);
 
-    void on_rbB_toggled(bool checked);
+    void on_btnPrevQuestion_clicked(bool checked);
 
-    void on_rbC_toggled(bool checked);
+    void on_finish_test_triggered();
 
-    void on_rbD_toggled(bool checked);
+    void on_rbA_clicked(bool checked);
+
+    void on_rbB_clicked(bool checked);
+
+    void on_rbC_clicked(bool checked);
+
+    void on_rbD_clicked(bool checked);
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -50,5 +56,9 @@ private:
     void UpdateCorrectAnswerUI(const QuestionData &question);
     /// 初始化题库
     void InitQuestions();
+    /// 初始化界面
+    void InitUI();
+    /// 查看并显示答案
+    void CheckAndShowAnswer();
 };
 #endif // MAINWINDOW_H

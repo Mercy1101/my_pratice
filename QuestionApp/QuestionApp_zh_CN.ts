@@ -10,7 +10,7 @@
     </message>
     <message>
         <location filename="mainwindow.ui" line="60"/>
-        <source>Tab 1</source>
+        <source>PMP</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -59,23 +59,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="482"/>
-        <source>Tab 2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="mainwindow.ui" line="502"/>
+        <location filename="mainwindow.ui" line="497"/>
         <source>开始</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="510"/>
+        <location filename="mainwindow.ui" line="506"/>
+        <location filename="mainwindow.ui" line="509"/>
         <source>开始答题</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="513"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;开始测试&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location filename="mainwindow.ui" line="514"/>
+        <location filename="mainwindow.ui" line="517"/>
+        <source>提交试卷</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

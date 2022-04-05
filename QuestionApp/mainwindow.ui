@@ -57,7 +57,7 @@
           <bool>false</bool>
          </property>
          <attribute name="title">
-          <string>Tab 1</string>
+          <string>PMP</string>
          </attribute>
          <layout class="QGridLayout" name="gridLayout_3">
           <item row="0" column="0">
@@ -477,11 +477,6 @@
           </item>
          </layout>
         </widget>
-        <widget class="QWidget" name="tab_2">
-         <attribute name="title">
-          <string>Tab 2</string>
-         </attribute>
-        </widget>
        </widget>
       </item>
      </layout>
@@ -502,6 +497,7 @@
      <string>开始</string>
     </property>
     <addaction name="start_test"/>
+    <addaction name="finish_test"/>
    </widget>
    <addaction name="menu"/>
   </widget>
@@ -510,7 +506,15 @@
     <string>开始答题</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;开始测试&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>开始答题</string>
+   </property>
+  </action>
+  <action name="finish_test">
+   <property name="text">
+    <string>提交试卷</string>
+   </property>
+   <property name="toolTip">
+    <string>提交试卷</string>
    </property>
   </action>
  </widget>
