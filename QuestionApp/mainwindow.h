@@ -13,19 +13,29 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 private slots:
-    void slot_click_answer();
     void on_btnConfirm_clicked(bool checked);
 
-    void on_pushButton_clicked(bool checked);
+    void on_start_test_triggered();
+
+    void on_rbA_toggled(bool checked);
+
+    void on_rbB_toggled(bool checked);
+
+    void on_rbC_toggled(bool checked);
+
+    void on_rbD_toggled(bool checked);
 
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    virtual bool eventFilter(QObject *watched, QEvent *event);
+
 private:
     Ui::MainWindow *ui;
 
-    QButtonGroup *radio_selection_;
+    QButtonGroup radio_selection_;
     QuestionController controller_;
 
     /// 获取问题的 index

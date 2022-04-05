@@ -80,6 +80,22 @@ public:
     }
 
     /**
+     * @brief   获取作答答案
+     * @return  获取成功或失败
+     */
+    bool get_people_answer(const QUESTION_ID_TYPE& id, int& answer) const
+    {
+        auto it = people_answer_.find(id);
+        if (it == people_answer_.end())
+        {
+            return false;
+        }
+
+        answer = it->second;
+        return true;
+    }
+
+    /**
      * @brief 比较答案是否正确
      * @param id        [in]
      * @param answer    [in]

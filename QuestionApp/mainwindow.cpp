@@ -1,4 +1,5 @@
 #include <iostream>
+#include <QMouseEvent>
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
@@ -8,11 +9,59 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     InitQuestions();
+
+    /// 把 radio button 绑定在一个组内
+    radio_selection_.addButton(ui->rbA, 0);
+    radio_selection_.addButton(ui->rbB, 1);
+    radio_selection_.addButton(ui->rbC, 2);
+    radio_selection_.addButton(ui->rbD, 3);
+
+    /// 设置本窗口背景色
+    setStyleSheet("background-color:rgb(250,249,222);");
+
+    /// 安装事件过滤器，为了实现标签点击事件的响应函数
+    ui->labelAnswerA->installEventFilter(this);
+    ui->labelAnswerB->installEventFilter(this);
+    ui->labelAnswerC->installEventFilter(this);
+    ui->labelAnswerD->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+bool MainWindow::eventFilter(QObject* watched, QEvent* event)
+{
+    if (event->type() == QEvent::MouseButtonPress)
+    {
+        QMouseEvent* mouseEvent = dynamic_cast<QMouseEvent*>(event);
+        if (mouseEvent->button() == Qt::LeftButton)
+        {
+            if (watched == ui->labelAnswerA)
+            {
+                ui->rbA->setChecked(true);
+            }
+            else if (watched == ui->labelAnswerB)
+            {
+                ui->rbB->setChecked(true);
+            }
+            else if (watched == ui->labelAnswerC)
+            {
+                ui->rbC->setChecked(true);
+            }
+            else if (watched == ui->labelAnswerD)
+            {
+                ui->rbD->setChecked(true);
+            }
+            else
+            {
+                // pass the event on to the parent class
+                return QMainWindow::eventFilter(watched, event);
+            }
+        }
+    }
+    return false;
 }
 
 void MainWindow::InitQuestions()
@@ -37,11 +86,6 @@ void MainWindow::InitQuestions()
 
 void MainWindow::start()
 {
-    /// 把 radio button 绑定在一个组内
-    radio_selection_->addButton(ui->rbA, 0);
-    radio_selection_->addButton(ui->rbB, 1);
-    radio_selection_->addButton(ui->rbC, 2);
-    radio_selection_->addButton(ui->rbD, 3);
     controller_.start();
 
     QuestionData question;
@@ -55,7 +99,7 @@ void MainWindow::start()
 void MainWindow::update_question(const int& question_index, const QuestionData& question)
 {
     /// 显示问题
-    ui->edtQuestion->setText(question.get_question().c_str());
+    ui->labelQuestion->setText(question.get_question().c_str());
 
     std::map<int, std::string> answers = question.get_answer();
     if (answers.size() != 4)
@@ -65,19 +109,13 @@ void MainWindow::update_question(const int& question_index, const QuestionData& 
     }
 
     /// 保存问题的 index
-    ui->labelQuestionIndex->setText(std::to_string(question_index).c_str());
+    ui->labelQuestionIndex->setText(std::to_string(question_index + 1).c_str());
 
     /// 显示答案
-    ui->edtAnswerA->setText(answers[0].c_str());
-    ui->edtAnswerB->setText(answers[1].c_str());
-    ui->edtAnswerC->setText(answers[2].c_str());
-    ui->edtAnswerD->setText(answers[3].c_str());
-
-    /// 绑定记录答案的东西
-    connect(ui->rbA, SIGNAL(clicked(bool)), this, SLOT(slot_click_answer));
-    connect(ui->rbB, SIGNAL(clicked(bool)), this, SLOT(slot_click_answer));
-    connect(ui->rbC, SIGNAL(clicked(bool)), this, SLOT(slot_click_answer));
-    connect(ui->rbD, SIGNAL(clicked(bool)), this, SLOT(slot_click_answer));
+    ui->labelAnswerA->setText(answers[0].c_str());
+    ui->labelAnswerB->setText(answers[1].c_str());
+    ui->labelAnswerC->setText(answers[2].c_str());
+    ui->labelAnswerD->setText(answers[3].c_str());
 }
 
 void MainWindow::UpdateCorrectAnswerUI(const QuestionData& question)
@@ -88,6 +126,28 @@ void MainWindow::UpdateCorrectAnswerUI(const QuestionData& question)
     QPalette palette;
     palette.setColor(QPalette::WindowText, Qt::green);
     ui->labelResult->setPalette(palette);
+
+    /// 正确答案显示
+    std::string strCorrectAnswer = "正确答案是: ";
+    switch (question.get_correct_answer_index())
+    {
+        case 0:
+            strCorrectAnswer += "A";
+            break;
+        case 1:
+            strCorrectAnswer += "B";
+            break;
+        case 2:
+            strCorrectAnswer += "C";
+            break;
+        case 3:
+            strCorrectAnswer += "D";
+            break;
+        default:
+            break;
+    }
+
+    ui->labelCorrectAnswer->setText(strCorrectAnswer.c_str());
 }
 
 void MainWindow::UpdateWrongAnswerUI(const QuestionData& question)
@@ -98,17 +158,57 @@ void MainWindow::UpdateWrongAnswerUI(const QuestionData& question)
     QPalette palette;
     palette.setColor(QPalette::WindowText, Qt::red);
     ui->labelResult->setPalette(palette);
-}
 
-void MainWindow::slot_click_answer()
-{
-    controller_.write_answer(GetQuestionIndex(), radio_selection_->checkedId());
+    std::string strCorrectAnswer = "正确答案是: ";
+    switch (question.get_correct_answer_index())
+    {
+        case 0:
+            strCorrectAnswer += "A";
+            break;
+        case 1:
+            strCorrectAnswer += "B";
+            break;
+        case 2:
+            strCorrectAnswer += "C";
+            break;
+        case 3:
+            strCorrectAnswer += "D";
+            break;
+        default:
+            break;
+    }
+
+    std::string strPeopleAnswer = "你的答案是: ";
+    int people_answer = -1;
+    if (controller_.get_people_answer(GetQuestionIndex(), people_answer))
+    {
+        switch (people_answer)
+        {
+            case 0:
+                strPeopleAnswer += "A";
+                break;
+            case 1:
+                strPeopleAnswer += "B";
+                break;
+            case 2:
+                strPeopleAnswer += "C";
+                break;
+            case 3:
+                strPeopleAnswer += "D";
+                break;
+            default:
+                break;
+        }
+    }
+
+    std::string strAnswerText = strCorrectAnswer + " " + strPeopleAnswer;
+    ui->labelCorrectAnswer->setText(strAnswerText.c_str());
 }
 
 int MainWindow::GetQuestionIndex()
 {
     QString strQuestionIndex = ui->labelQuestionIndex->text();
-    return strQuestionIndex.toInt();
+    return strQuestionIndex.toInt() - 1;
 }
 
 void MainWindow::on_btnConfirm_clicked(bool checked)
@@ -131,28 +231,6 @@ void MainWindow::on_btnConfirm_clicked(bool checked)
         UpdateWrongAnswerUI(question);
     }
 
-    /// 正确答案显示
-    std::string strCorrectAnswer;
-    switch (question.get_correct_answer_index())
-    {
-        case 0:
-            strCorrectAnswer = "A";
-            break;
-        case 1:
-            strCorrectAnswer = "B";
-            break;
-        case 2:
-            strCorrectAnswer = "C";
-            break;
-        case 3:
-            strCorrectAnswer = "D";
-            break;
-        default:
-            break;
-    }
-
-    ui->labelCorrectAnswer->setText(strCorrectAnswer.c_str());
-
     std::vector<std::string> vecNote = question.get_notes();
     std::string strNote;
     for (const auto& element : vecNote)
@@ -163,7 +241,27 @@ void MainWindow::on_btnConfirm_clicked(bool checked)
     ui->edtNote->setText(strNote.c_str());
 }
 
-void MainWindow::on_pushButton_clicked(bool checked)
+void MainWindow::on_start_test_triggered()
 {
     start();
+}
+
+void MainWindow::on_rbA_toggled(bool checked)
+{
+    controller_.write_answer(GetQuestionIndex(), radio_selection_.checkedId());
+}
+
+void MainWindow::on_rbB_toggled(bool checked)
+{
+    controller_.write_answer(GetQuestionIndex(), radio_selection_.checkedId());
+}
+
+void MainWindow::on_rbC_toggled(bool checked)
+{
+    controller_.write_answer(GetQuestionIndex(), radio_selection_.checkedId());
+}
+
+void MainWindow::on_rbD_toggled(bool checked)
+{
+    controller_.write_answer(GetQuestionIndex(), radio_selection_.checkedId());
 }
