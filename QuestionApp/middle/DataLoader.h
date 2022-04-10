@@ -2,6 +2,9 @@
 #define DATALOADER_H
 
 #include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QDebug>
 #include "QuestionData.h"
 
 class db_pmp
@@ -33,7 +36,7 @@ public:
 
     bool query_all_question(std::vector<QuestionData>& vecQuestion)
     {
-        sql_log_trace("query_all_question: ");
+        /// sql_log_trace("query_all_question: ");
         QSqlQuery sql_query(database);
         QString query_sql = "SELECT id, question, answers, correct_answer_indexes, notes, labels FROM pmp";
         sql_query.prepare(query_sql);
@@ -61,8 +64,8 @@ public:
         }
         else
         {
-            sql_log_error("SqliteDataBaseOperation::query_all_address_book() error: " +
-                          sql_query.lastError().text().toStdString());
+            /// sql_log_error("SqliteDataBaseOperation::query_all_address_book() error: " +
+            ///              sql_query.lastError().text().toStdString());
             return false;
         }
     }
@@ -74,51 +77,52 @@ private:
         QuestionData question;
 
         question.id = it.id;
-        question.question = it.question;
+        question.question_ = it.question;
 
         std::vector<std::string> vecAnswers;
-        string_split(it.answers, question.vecAnswers, "`,`");
+        string_split(it.answers, vecAnswers, "`,`");
         int index_answers = 0;
         for (const auto& it : vecAnswers)
         {
-            quesion.answers[index_answers++] = it;
+            question.answer_[index_answers++] = it;
         }
 
-        std::vector<std::string> vecIndex string_split(it.correct_answer_indexes, vecIndex, "`,`");
+        std::vector<std::string> vecIndex;
+        string_split(it.correct_answer_indexes, vecIndex, "`,`");
         for (const auto& it : vecIndex)
         {
             int i = std::stoi(it);
-            question.correct_answer_indexes_.push_back(i);
+            question.correct_answer_index_.push_back(i);
         }
 
         string_split(it.notes, question.notes_, "`,`");
-        string_split(it.labels, question.labels, "`,`");
+        string_split(it.labels, question.label_, "`,`");
         return question;
     }
 
-    bool connect(const QString& connection_name, const std::string& path = "./sql/pmp.sqlite")
+    bool connect(const std::string& connection_name, const std::string& path = "./sql/pmp.sqlite")
     {
-        sql_log_trace("SqliteDataBaseOperation::connect()");
-        if (QSqlDatabase::contains(connection_name_.c_str()))
+        /// sql_log_trace("SqliteDataBaseOperation::connect()");
+        if (QSqlDatabase::contains(connection_name.c_str()))
         {
-            database = QSqlDatabase::database(QLatin1String(connection_name_.c_str()), false);
+            database = QSqlDatabase::database(QLatin1String(connection_name.c_str()), false);
             /// database = QSqlDatabase::database(QLatin1String((database_name_+"_connection").c_str()), false);
         }
         else
         {
-            database = QSqlDatabase::addDatabase("QSQLITE", connection_name_.c_str());
+            database = QSqlDatabase::addDatabase("QSQLITE", connection_name.c_str());
         }
 
         database.setDatabaseName(path.c_str());
         if (!database.isValid())
         {
-            sql_log_error("error connector in database!");
+            /// sql_log_error("error connector in database!");
             throw "error connector in database";
         }
 
         if (!database.open())
         {
-            sql_log_error("open database error");
+            /// sql_log_error("open database error");
             throw "open database error";
         }
 

@@ -16,7 +16,7 @@ public:
         data_loader.query_all_question(vecQuestion);
         for(const auto& it : vecQuestion)
         {
-            add_question(vecQuestion);
+            add_question(it);
         }
     }
 
