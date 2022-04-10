@@ -10,6 +10,7 @@
 class db_pmp
 {
 public:
+    db_pmp() : id(0) {}
     int id;
     std::string question;
     std::string answers;

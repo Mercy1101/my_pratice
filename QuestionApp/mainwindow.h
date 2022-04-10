@@ -54,8 +54,6 @@ private:
     void UpdateWrongAnswerUI(const QuestionData &question);
     /// 更新错误答案显示
     void UpdateCorrectAnswerUI(const QuestionData &question);
-    /// 初始化题库
-    void InitQuestions();
     /// 初始化界面
     void InitUI();
     /// 查看并显示答案

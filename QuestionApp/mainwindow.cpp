@@ -9,8 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    /// 添加问题
-    InitQuestions();
 
     /// 初始化界面
     InitUI();
@@ -77,60 +75,6 @@ bool MainWindow::eventFilter(QObject* watched, QEvent* event)
     return false;
 }
 
-void MainWindow::InitQuestions()
-{
-    /// std::string question_body = "如果项目之间的联系仅限于共享顾主、供应商、技术或资源，则这些项目应该()";
-    /// std::map<int, std::string> answer;
-    /// answer[0] = "由项目管理力公室统一管理";
-    /// answer[1] = "被作为项目组合来协调管理";
-    /// answer[2] = "被作为项目集来协调管理";
-    /// answer[3] = "被归入项目作战室统管理";
-    /// int correct_index = 0;
-    /// std::vector<std::string> notes;
-    /// notes.push_back(
-    ///     "解析：A.该答案有一定的道理，但不如B那么贴合题干。项目管理办公室的功能因组织而异。B."
-    ///     "正确答案。项目之间没有内在联系，只适合当作项目组合进行管理。C."
-    ///     "项目之间没有内在联系，通常不可能用项目集管理来获取额外利益。D.作战室是项目内的集中办公场所， "
-    ///     "用手团队建设，不是管理多个项目的机构。考点与页码，项目组合和项目集的区别。《指南》第14-15页");
-
-    /// QuestionData question(question_body, answer, correct_index, notes);
-    /// controller_.add_question(question);
-
-    /// std::string question_body0 = "1如果项目之间的联系仅限于共享顾主、供应商、技术或资源，则这些项目应该()";
-    /// std::map<int, std::string> answer0;
-    /// answer0[0] = "1由项目管理力公室统一管理";
-    /// answer0[1] = "1被作为项目组合来协调管理";
-    /// answer0[2] = "1被作为项目集来协调管理";
-    /// answer0[3] = "1被归入项目作战室统管理";
-    /// int correct_index0 = 0;
-    /// std::vector<std::string> notes0;
-    /// notes0.push_back(
-    ///     "1 解析：A.该答案有一定的道理，但不如B那么贴合题干。项目管理办公室的功能因组织而异。B."
-    ///     "正确答案。项目之间没有内在联系，只适合当作项目组合进行管理。C."
-    ///     "项目之间没有内在联系，通常不可能用项目集管理来获取额外利益。D.作战室是项目内的集中办公场所， "
-    ///     "用手团队建设，不是管理多个项目的机构。考点与页码，项目组合和项目集的区别。《指南》第14-15页");
-
-    /// QuestionData question0(question_body0, answer0, correct_index0, notes0);
-    /// controller_.add_question(question0);
-
-    /// /// 第三道题
-    /// std::string question_body1 = "2如果项目之间的联系仅限于共享顾主、供应商、技术或资源，则这些项目应该()";
-    /// std::map<int, std::string> answer1;
-    /// answer1[0] = "2由项目管理力公室统一管理";
-    /// answer1[1] = "2被作为项目组合来协调管理";
-    /// answer1[2] = "2被作为项目集来协调管理";
-    /// answer1[3] = "2被归入项目作战室统管理";
-    /// int correct_index1 = 0;
-    /// std::vector<std::string> notes1;
-    /// notes1.push_back(
-    ///     "1 解析：A.该答案有一定的道理，但不如B那么贴合题干。项目管理办公室的功能因组织而异。B."
-    ///     "正确答案。项目之间没有内在联系，只适合当作项目组合进行管理。C."
-    ///     "项目之间没有内在联系，通常不可能用项目集管理来获取额外利益。D.作战室是项目内的集中办公场所， "
-    ///     "用手团队建设，不是管理多个项目的机构。考点与页码，项目组合和项目集的区别。《指南》第14-15页");
-
-    /// QuestionData question1(question_body1, answer1, correct_index1, notes1);
-    /// controller_.add_question(question1);
-}
 
 void MainWindow::start()
 {
@@ -196,7 +140,8 @@ void MainWindow::update_question(const int& question_index, const QuestionData& 
         /// QPalette palette;
         /// palette.setColor(QPalette::WindowText, Qt::green);
         /// ui->labelAnswerA->setPalette(palette);
-        QString strColor = "color: rgb(50,118,98);";
+        /// QString strColor = "color: rgb(50,118,98);";
+        QString strColor = "color: rgb(70,195,163);";
         switch (question.get_correct_answer_index())
         {
             case 0:
