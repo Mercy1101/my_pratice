@@ -37,4 +37,4 @@ build-QuestionApp-Desktop_Qt_6_2_2_MSVC2019_64bit-Debug/
 build-QuestionApp-Desktop_Qt_6_2_2_MSVC2019_64bit-Release/
 QuestionApp/CMakeLists.txt.user
 QuestionApp/data/pic
-
+build/
