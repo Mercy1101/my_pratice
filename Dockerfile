@@ -48,6 +48,7 @@ RUN apt-get update \
     gnutls-bin \
     re2c \
     curl \
+    tcpdump \
     # 校对时区为上海时区
     && ln -snf /usr/share/zoneinfo/$TimeZone /etc/localtime && echo $TimeZone > /etc/timezone \
     && dpkg-reconfigure --frontend noninteractive tzdata \
